@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}News App - All Articles{% endblock title %}
+
+{% block content %}
+
+<div class="container pt-3">
+    <!-- T I T L E -->
+    <h1 class="display-2 mt-5 text-center g-font">All Articles</h1>
+    <div class="divider bg-primary border border-secondary"></div>
+
+    <!-- A L L   A R T I C L E S -->
+    <div class="container row mt-3">
+
+        <!-- A R T I C L E -->
+        {% for article in articles %}
+            <div id="main-article" class="card bg-light mx-3 mb-5 p-3 border border-secondary rounded shadow">
+                <img id="article-card" class="card-img-top border rounded" src="https://img3.stockfresh.com/files/i/iqoncept/m/34/1981868_stock-photo-read-all-about-it-newspaper-headline-information.jpg" alt="News Article">
+                <div class="card-body">
+                    <h3 class="card-title g-font display-6 mb-0">{{article.title}}</h3>
+                    <small class="card-subtitle text-muted">posted by {{article.author}} on {{article.created_at}}</small>
+                    <br>
+                    <small class="text-muted">comments: {{article.comments.count}}</small>
+                    <p class="card-text mt-3">{{article.body}}</p>
+                    <a href="{% url 'one_article' article.pk %}" class="btn btn-primary btn-wide">Read more...</a>
+                    {% if user.id == article.author.id %}
+                        <a href="{% url 'edit_article' article.pk %}" class="btn btn-warning btn-wide">Edit</a>
+                        <a href="{% url 'delete_article' article.pk %}" class="btn btn-danger btn-wide">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor%}
+    </div>
+
+
+</div>
+
+{% endblock content %}

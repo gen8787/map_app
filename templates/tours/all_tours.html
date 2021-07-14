@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static '/css/home.css' %}">{% endblock css %}
+{% block title %}All Tours{% endblock title %}
+
+{% block content %}
+
+<div class="container pt-3">
+    <!-- T I T L E -->
+    <h1 class="display-2 mt-5 text-center g-font text-white">All Tours</h1>
+    <div class="divider bg-primary border border-primary mx-auto"></div>
+
+    <!-- A L L   T O U R S -->
+    <div class="container row mt-3">
+
+        <!-- T O U R -->
+        {% for tour in tours %}
+            <div id="main-tour" class="card bg-light mx-3 mb-5 p-3 border border-secondary rounded shadow">
+                <div class="card-body">
+                    <h3 class="card-title g-font display-6 mb-0">{{tour.name}}</h3>
+                    <small class="card-subtitle text-muted">posted by {{tour.creator}} on {{tour.created_at}}</small>
+                    <br>
+                    <small class="text-muted">legs: {{tour.legs.count}}</small>
+                    <p class="card-text mt-3">{{tour.description}}</p>
+                    <a href="{% url 'one_tour' tour.pk %}" class="btn btn-primary btn-wide">more...</a>
+                    {% if user.id == tour.creator.id %}
+                        <a href="{% url 'edit_tour' tour.pk %}" class="btn btn-warning btn-wide">Edit</a>
+                        <a href="{% url 'delete_tour' tour.pk %}" class="btn btn-danger btn-wide">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor%}
+    </div>
+
+
+</div>
+
+{% endblock content %}

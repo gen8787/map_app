@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+{% block css %}<link rel="stylesheet" href="{% static '/css/home.css' %}">{% endblock css %}
+
+{% block content %}
+
+<div class="container pt-3 text-center">
+    <div class="landing p-4 m-5 text-white">
+        <h1 class="display-1">Welcome to MapApp</h1>
+        <img class="spin" src="/static/img/compass.svg" width="350" alt=""></img>
+        <h1 class="display-5">plan your next adventure and be home for happy hour 🍻</h1>
+        <a href="{% url 'new_tour' %}" class="btn btn-lg btn-danger mt-3">Create Tour</a>
+    </div>
+
+</div>
+
+{% endblock content %}

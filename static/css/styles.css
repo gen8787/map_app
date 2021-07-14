@@ -1,0 +1,44 @@
+/* G L O B A L */
+body {
+    background-image: url("/static/img/topo-bg.jpg");
+}
+
+.container {
+    min-height: 90vh;
+}
+
+
+/* S P E C I F I C */
+.nav-log {
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.g-font {
+    font-family: 'Oswald', sans-serif;
+}
+
+.login-error-btns button,
+.btn-wide {
+    width: 200px;
+}
+
+#tour-card {
+    height: 300px;
+    width: 300px;
+}
+
+.btn-wide {
+    width: 175px;
+    margin-right: 10px;
+}
+
+
+/* F O O T E R */
+.footer-text {
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 24px;
+    height: 215px;
+    background-color: #353A3F;
+}

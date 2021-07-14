@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}News App - {{article.title}}{% endblock title %}
+
+{% block content %}
+
+<div class="container pt-3">
+    <!-- T I T L E -->
+    <h1 class="display-2 mt-5 text-center g-font">{{article.title}}</h1>
+    <div class="divider bg-primary border border-secondary"></div>
+
+    <!-- O N E   A R T I C L E -->
+    <div class="mt-3 p-3 border border-secondary bg-light rounded shadow">
+        <small class="text-muted">Posted by {{article.author}} on {{article.created_at}}</small>
+
+        <blockquote class="blockquote mb-5">
+            <p class="mt-3">{{article.body}}</p>
+        </blockquote>
+        
+        {% if user.id == article.author.id %}
+            <a href="{% url 'edit_article' article.pk %}" class="btn btn-warning btn-wide">Edit</a>
+            <a href="{% url 'delete_article' article.pk %}" class="btn btn-danger btn-wide">Delete</a>
+        {% endif %}
+    </div>
+
+    <!-- C O M M E N T S -->
+    <div class="comments mt-5">
+        <h3 class="g-font display-6">Comments - {{article.comments.count}}</h3>
+        <div class="divider bg-primary border border-secondary w-25 mb-3"></div>
+
+        <!-- C O M M E N T -->
+        {% if user.id > 0 %}
+        {% for comment in article.comments.all %}
+            <div class="mt-3 p-3 border border-secondary bg-light rounded shadow w-75">
+                <div class="d-flex justify-content-between">
+                    <small class="text-muted">Posted by {{comment.author}} on {{comment.created_at}}</small>
+                    {% if user.id == comment.author.id %}
+                    <div>
+                        <i class="fas fa-edit text-muted btn"><a href="{% url 'edit_article' article.pk %}"></a></i>
+                        <i class="fas fa-trash-alt text-muted btn"><a href="{% url 'delete_article' article.pk %}"></a></i>
+                    </div>
+                    {% else %}
+                    <div>
+                        <i class="fas fa-flag text-muted btn" onclick="flagComment('{{comment.id}}')"></i>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <blockquote class="blockquote mb-5">
+                    <p class="mt-3">{{comment}}</p>
+                </blockquote>
+
+                <!-- L I K E S   /   D I S L I K E S -->
+                <div class="like-btns">
+                    <i id="likes-{{post.id}}" class="fas fa-thumbs-up text-muted">&nbsp {{comment.likes}} &nbsp</i>
+                    <i id="dislikes-{{post.id}}" class="fas fa-thumbs-down text-muted">&nbsp {{comment.dislikes}} &nbsp</i>
+                </div>
+                
+            </div>
+        {% endfor %}
+        {% else %}
+            <div class="alert-warning mt-3 p-3 border border-warning rounded w-50" role="alert">You must be logged in to view comments.
+            <a href="{% url 'login' %}">Login</a> or <a href="{% url 'signup' %}">Register</a>.
+            </div>
+        {% endif %}
+
+    </div>
+
+
+</div>
+
+{% endblock content %}

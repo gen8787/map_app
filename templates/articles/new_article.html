@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}News App - New Post{% endblock title %}
+
+{% block content %}
+
+<div class="container pt-3">
+    <!-- T I T L E -->
+    <h1 class="display-2 mt-5 g-font text-center">Add New Article</h1>
+    <div class="divider bg-secondary border border-secondary"></div>
+
+    <!-- N E W   P O S T   F O R M -->
+    <div class="mt-3 p-3 border border-secondary rounded w-75 mx-auto">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            <input class="btn btn-primary" type="submit" value="Add">
+        </form>
+    </div>
+
+</div>
+
+{% endblock content %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}{{tour.name}}{% endblock title %}
+
+{% block content %}
+
+<div class="container pt-3">
+    <!-- T I T L E -->
+    <h1 class="display-2 mt-5 text-center g-font text-white">{{tour.name}}</h1>
+    <div class="divider bg-primary border border-primary mx-auto"></div>
+
+    <!-- O N E   T O U R -->
+    <div class="mt-3 p-3 border border-secondary bg-light rounded shadow">
+        <small class="text-muted">Posted by {{tour.creator}} on {{tour.created_at}}</small>
+
+        <blockquote class="blockquote mb-5">
+            <p class="mt-3">{{tour.description}}</p>
+        </blockquote>
+        
+        {% if user.id == tour.creator.id %}
+            <a href="{% url 'edit_tour' tour.pk %}" class="btn btn-warning btn-wide">Edit</a>
+            <a href="{% url 'delete_tour' tour.pk %}" class="btn btn-danger btn-wide">Delete</a>
+        {% endif %}
+    </div>
+
+    <!-- L E G S -->
+    <div class="legs mt-5">
+        <h3 class="g-font display-6 text-white">Legs - {{tour.legs.count}}</h3>
+        <div class="divider bg-primary border border-primary w-25 mb-3"></div>
+
+        <!-- L E G -->
+        {% if user.id > 0 %}
+        {% for leg in tour.legs.all %}
+            <div class="my-3 p-3 border border-secondary bg-light rounded shadow w-75">
+                <div class="d-flex justify-content-between">
+                    <small class="text-muted">Posted by {{leg.creator}} on {{leg.created_at}}</small>
+                    {% if user.id == leg.creator.id %}
+                    <div>
+                        <i class="fas fa-edit text-muted btn"><a href="{% url 'edit_tour' tour.pk %}"></a></i>
+                        <i class="fas fa-trash-alt text-muted btn"><a href="{% url 'delete_tour' tour.pk %}"></a></i>
+                    </div>
+                    {% else %}
+                    <div>
+                        <i class="fas fa-flag text-muted btn" onclick="flagComment('{{leg.id}}')"></i>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <blockquote class="blockquote mb-5">
+                    <p class="mt-3">{{leg}}</p>
+                </blockquote>
+
+
+                
+            </div>
+        {% endfor %}
+        {% else %}
+            <div class="alert-warning mt-3 p-3 border border-warning rounded w-50" role="alert">You must be logged in to view comments.
+            <a href="{% url 'login' %}">Login</a> or <a href="{% url 'signup' %}">Register</a>.
+            </div>
+        {% endif %}
+
+        <!-- A D D   L E G S -->
+        <div class="row justify-content-between">
+            <div class="col-6 landing">
+                <h3 class="ml-3 text-primary">Add Legs</h3>
+                    <form action="add-leg" class="border border-primary bg-light shadow-lg p-3 mb-5 rounded" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="Description">Description: </label>
+                        <input class="form-control" name="description">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Distance">Distance: </label>
+                        <input class="form-control" name="distance">
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="Vertical">Vertical: </label>
+                        <input class="form-control" name="vertical">
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="MunterRate">Rate: </label>
+                        <input class="form-control" name="rate">
+                    </div>
+    
+                        <button class="btn btn-primary mt-3" type="submit">Add Leg</button>
+                    </form>
+            </div>
+    
+            <div class="col-6">
+                <h3 class="ml-3 text-primary">Information</h3>
+                <div class="card border border-primary bg-light shadow-lg p-3 mb-5 rounded">
+                    <p>- Distance is in in Miles.</p>
+                    <p>- Vertical is a positive number in Feet.</p>
+                    <p>Common Munter Rates:</p>
+                    <ul>
+                        <li>Off trail travel: 2</li>
+                        <li>Uphill travel on foot: 4</li>
+                        <li>Flat travel on foot: 6</li>
+                        <li>Downhill travel on foot: 8</li>
+                    </ul>
+                    <p>Formula:</p>
+                    <p>time = (distance + (elevation / 100)) / rate</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock content %}

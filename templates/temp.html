@@ -1,0 +1,31 @@
+    <!-- N A V   B A R -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top mb-5">
+        <div class="container-fluid">
+            <a class="navbar-brand mx-3" href="{% url 'home' %}">📰 &nbsp News App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'password_change' %}">Change Password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'password_reset' %}">Reset Password</a>
+                    </li>
+                </ul>
+                {% if user.is_authenticated %}
+                    <span class="navbar-text text-primary nav-log">
+                        Welcome, {{user.username}} | <a href="{% url 'logout' %}">Logout</a>
+                    </span>
+                {% else %}
+                    <span class="navbar-text text-warning nav-log">
+                        You are not logged in | <a class="text-warning" href="{% url 'login' %}">Login</a>&nbsp| <a class="text-warning" href="{% url 'signup' %}">Signup</a>
+                    </span>
+                {% endif %}
+            </div>
+    </div>
+    </nav>
